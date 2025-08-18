@@ -1,0 +1,42 @@
+class Solution {
+    public boolean judgePoint24(int[] cards) {
+      double[] nums = new double[cards.length];
+      for (int i = 0; i < cards.length; i++){
+        nums[i] = cards[i];
+      }
+      return dfs(nums);
+    }
+    private boolean dfs(double[] nums){
+      if (nums.length == 1){
+        return Math.abs(nums[0] - 24.0) < 1e-6;
+      }
+      int n = nums.length;
+      for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+          if (i == j)
+            continue;
+          List<Double> next = new ArrayList<>();
+          for (int k = 0; k < n; k++){
+            if (k != i && k != j)
+              next.add(nums[k]);
+          }
+          double a = nums[i], b = nums[j];
+          List<Double> res = new ArrayList<>();
+                res.add(a + b);
+                res.add(a - b);
+                res.add(b - a);
+                res.add(a * b);
+          if (Math.abs(b) > 1e-6) res.add(a / b);
+          if (Math.abs(a) > 1e-6) res.add(b / a);
+          for (double val : res){
+            next.add(val);
+            if (dfs(next.stream().mapToDouble(Double::doubleValue).toArray())){
+              return true;
+            }
+            next.remove(next.size() - 1);
+          }
+        }
+      }
+      return false;
+    }
+}
