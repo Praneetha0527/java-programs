@@ -1,0 +1,11 @@
+class Solution {
+    public int finalPositionOfSnake(int n, List<String>nums) {
+        int i=0;
+        for(String s:nums){
+            if(s.charAt(0)=='D')i+=n;
+            else if(s.charAt(0)=='L')i--;
+            else if(s.charAt(0)=='R')i++;
+            else i-=n;
+        }return i;
+    }
+}
